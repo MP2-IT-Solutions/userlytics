@@ -1,0 +1,306 @@
+<?php if(count($this->browser)): ?>
+<form action="contao/main.php?do=userlytics" class="tl_form" method="post">
+<div class="tl_formbody">
+<input type="hidden" name="FORM_SUBMIT" value="tl_filters">
+<input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+
+<div class="tl_panel">
+
+<div class="tl_submit_panel tl_subpanel">
+<input type="image" name="filter" id="filter" src="system/themes/default/images/reload.gif" class="tl_img_submit" title="" alt="Anwenden">
+</div>
+<div class="tl_search tl_subpanel">
+	<strong><?php echo $GLOBALS['TL_LANG']['userlytics']['filter']; ?>: </strong>
+	
+	<div class="styled_select tl_select"><span></span><b><i></i></b></div>
+	<select name="userlytics_website" class="tl_select" style="opacity: 0; margin-bottom: 4px;">
+	  <option value="all">-</option>
+	  <?php foreach($this->websites as $url => $val): ?>
+	  <option value="<?php echo $url; ?>"  <?php if($this->Input->post('userlytics_website') == $url) echo "selected";?>><?php echo $url; ?></option>
+	  <?php endforeach; ?>
+	</select>
+	
+	<div class="styled_select tl_select"><span></span><b><i></i></b></div>
+	<select name="userlytics_time" class="tl_select" style="opacity: 0; margin-bottom: 4px;">
+	  <option value="lastyears" <?php if($this->Input->post('userlytics_time') == 'lastyers') echo "selected";?>><?php echo $GLOBALS['TL_LANG']['userlytics']['lyear']; ?></option>
+      <option value="lastmonth" <?php if($this->Input->post('userlytics_time') == 'lastmonth') echo "selected";?>><?php echo $GLOBALS['TL_LANG']['userlytics']['lmonth']; ?></option>
+	  <option value="lastweek" <?php if($this->Input->post('userlytics_time') == 'lastweek') echo "selected";?>><?php echo $GLOBALS['TL_LANG']['userlytics']['lweek']; ?></option>
+	  <option value="yesterday" <?php if($this->Input->post('userlytics_time') == 'yesterday') echo "selected";?>><?php echo $GLOBALS['TL_LANG']['userlytics']['yesterday']; ?></option>
+	</select>
+	
+</div>
+
+<div class="clear"></div>
+
+</div>
+</div>
+</form>
+<div class="navigationLytics">
+	<span id="nav1" class="active" onclick="clickTab(1);"><?php echo $GLOBALS['TL_LANG']['userlytics']['browser']; ?></span>
+	<span id="nav2" class="" onclick="clickTab(2);"><?php echo $GLOBALS['TL_LANG']['userlytics']['operatingsystem']; ?></span>
+	<span id="nav3" class="" onclick="clickTab(3);"><?php echo $GLOBALS['TL_LANG']['userlytics']['dvm']; ?></span>
+	<span id="nav4" class="" onclick="clickTab(4);"><?php echo $GLOBALS['TL_LANG']['userlytics']['browserver']; ?></span>
+</div>
+<div class="userlyticsContent">
+
+	<div id="tab1" class="tabContent">
+		<?php if($this->browser): ?>
+		
+			<div class="rowWrapper header">
+				
+				<div class="name"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['desktop']; ?></b></div>
+				<div class="percentage">
+					<div class="value"></div>
+				</div>
+				<div class="percent"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['percentage']; ?></b></div>
+				<div class="counts"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['counts']; ?></b></div>
+				<div class="clear"></div>
+			</div>
+
+			<?php foreach($this->browser as $browsername => $browservalue): ?>
+			
+			<div class="rowWrapper">
+				<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/<?php echo $browsername; ?>.png);"></div>
+				<div class="name"><?php echo $browsername; ?></div>
+				<div class="percentage">
+					<div class="valueWrapper">
+						<div class="value" style="width:<?php echo round($browservalue*100/$this->all,2); ?>%"></div>
+					</div>
+				</div>
+				<div class="percent"><?php echo round($browservalue*100/$this->all,2); ?> %</div>
+				<div class="counts"><?php echo $browservalue; ?></div>
+				<div class="clear"></div>
+			</div>
+			
+			<?php endforeach; ?>
+		<?php endif; ?>
+		
+		
+		<?php if($this->browserMobile): ?>
+			<div class="rowWrapper header splitter">
+				
+				<div class="name"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['mobile']; ?></b></div>
+				<div class="percentage">
+					<div class="value"></div>
+				</div>
+				<div class="percent"><b></b></div>
+				<div class="counts"><b></b></div>
+				<div class="clear"></div>
+			</div>
+			
+			<?php foreach($this->browserMobile as $browsername => $browservalue): ?>
+			
+			<div class="rowWrapper">
+				<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/<?php echo $browsername; ?>.png);"></div>
+				<div class="name"><?php echo $browsername; ?></div>
+				<div class="percentage">
+					<div class="valueWrapper">
+						<div class="value" style="width:<?php echo round($browservalue*100/$this->all,2); ?>%"></div>
+					</div>
+				</div>
+				<div class="percent"><?php echo round($browservalue*100/$this->all,2); ?> %</div>
+				<div class="counts"><?php echo $browservalue; ?></div>
+				<div class="clear"></div>
+			</div>
+			
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
+	
+	
+	
+	
+	<div id="tab2" class="tabContent">
+		<?php if($this->os): ?>
+			<div class="rowWrapper header">
+				
+				<div class="name"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['desktop']; ?></b></div>
+				<div class="percentage">
+					<div class="value"></div>
+				</div>
+				<div class="percent"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['percentage']; ?></b></div>
+				<div class="counts"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['counts']; ?></b></div>
+				<div class="clear"></div>
+			</div>
+
+			<?php foreach($this->os as $osname => $osvalue): ?>
+			
+			<div class="rowWrapper">
+				<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/<?php echo $osname; ?>.png);"></div>
+				<div class="name"><?php echo $osname; ?></div>
+				<div class="percentage">
+					<div class="valueWrapper">
+						<div class="value" style="width:<?php echo round($osvalue*100/$this->all,2); ?>%"></div>
+					</div>
+				</div>
+				<div class="percent"><?php echo round($osvalue*100/$this->all,2); ?> %</div>
+				<div class="counts"><?php echo $osvalue; ?></div>
+				<div class="clear"></div>
+			</div>
+			
+			<?php endforeach; ?>
+		<?php endif; ?>
+		
+		<?php if($this->osMobile): ?>
+			<div class="rowWrapper header splitter">
+				
+				<div class="name"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['mobile']; ?></b></div>
+				<div class="percentage">
+					<div class="value"></div>
+				</div>
+				<div class="percent"><b></b></div>
+				<div class="counts"><b></b></div>
+				<div class="clear"></div>
+			</div>
+
+			<?php foreach($this->osMobile as $osname => $osvalue): ?>
+			
+			<div class="rowWrapper">
+				<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/<?php echo $osname; ?>.png);"></div>
+				<div class="name"><?php echo $osname; ?></div>
+				<div class="percentage">
+					<div class="valueWrapper">
+						<div class="value" style="width:<?php echo round($osvalue*100/$this->all,2); ?>%"></div>
+					</div>
+				</div>
+				<div class="percent"><?php echo round($osvalue*100/$this->all,2); ?> %</div>
+				<div class="counts"><?php echo $osvalue; ?></div>
+				<div class="clear"></div>
+			</div>
+			
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
+	
+	
+	
+
+	<div id="tab3" class="tabContent">
+	
+		<div class="rowWrapper header">
+			
+			<div class="name"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['device']; ?></b></div>
+			<div class="percentage">
+				<div class="value"></div>
+			</div>
+			<div class="percent"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['percentage']; ?></b></div>
+			<div class="counts"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['counts']; ?></b></div>
+			<div class="clear"></div>
+		</div>
+
+		<div class="rowWrapper">
+			<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/desktop.png);"></div>
+			<div class="name"><?php echo $GLOBALS['TL_LANG']['userlytics']['desktop']; ?></div>
+			<div class="percentage">
+				<div class="valueWrapper">
+					<div class="value" style="width:<?php echo round($this->mobile[0]*100/$this->all,2); ?>%"></div>
+				</div>
+			</div>
+			<div class="percent"><?php echo round($this->mobile[0]*100/$this->all,2); ?> %</div>
+			<div class="counts"><?php echo $this->mobile[0]; ?></div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="rowWrapper">
+			<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/mobile.png);"></div>
+			<div class="name"><?php echo $GLOBALS['TL_LANG']['userlytics']['mobile']; ?></div>
+			<div class="percentage">
+				<div class="valueWrapper">
+					<div class="value" style="width:<?php echo round($this->mobile[1]*100/$this->all,2); ?>%"></div>
+				</div>
+			</div>
+			<div class="percent"><?php echo round($this->mobile[1]*100/$this->all,2); ?> %</div>
+			<div class="counts"><?php echo $this->mobile[1]; ?></div>
+			<div class="clear"></div>
+		</div>
+	
+	</div>
+	
+	
+	
+	<div id="tab4" class="tabContent">
+		<?php if($this->browserVersion): ?>	
+			<?php $first = " first"; ?>
+			<?php foreach($this->browserVersion as $name => $key): ?>
+				
+				<div class="rowWrapper headerbg splitter<?php echo $first; ?>">
+				
+					<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/<?php echo $name; ?>.png);"></div>
+					<div class="name"><b><?php echo $name; ?></b></div>
+					<div class="percentage">
+						<div class="value"></div>
+					</div>
+					<div class="percent"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['percentage']; ?></b></div>
+					<div class="counts"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['counts']; ?></b></div>
+					<div class="clear"></div>
+				</div>
+				<?php $first = ""; ?>
+				
+				<?php foreach($key as $vers => $value): ?>
+					
+					<div class="rowWrapper">
+						<div class="logo"></div>
+						<div class="name"><?php echo $vers; ?></div>
+						<div class="percentage">
+							<div class="valueWrapper">
+								<div class="value" style="width:<?php echo round($value*100/$this->all,2); ?>%"></div>
+							</div>
+						</div>
+						<div class="percent"><?php echo round($value*100/$this->all,2); ?> %</div>
+						<div class="counts"><?php echo $value; ?></div>
+						<div class="clear"></div>
+					</div>
+			
+				<?php endforeach; ?>
+				
+			<?php endforeach; ?>
+		<?php endif; ?>
+		
+		<?php if($this->browserVersionMobile): ?>	
+			<h2><?php echo $GLOBALS['TL_LANG']['userlytics']['mobile']; ?></h2>
+			
+			<?php $first = " first"; ?>
+			<?php foreach($this->browserVersionMobile as $name => $key): ?>
+				
+				<div class="rowWrapper headerbg splitter<?php echo $first; ?>">
+				
+					<div class="logo" style="background-image:url(system/modules/userlytics/assets/img/<?php echo $name; ?>.png);"></div>
+					<div class="name"><b><?php echo $name; ?></b></div>
+					<div class="percentage">
+						<div class="value"></div>
+					</div>
+					<div class="percent"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['percentage']; ?></b></div>
+					<div class="counts"><b><?php echo $GLOBALS['TL_LANG']['userlytics']['counts']; ?></b></div>
+					<div class="clear"></div>
+				</div>
+				<?php $first = ""; ?>
+				
+				<?php foreach($key as $vers => $value): ?>
+					
+					<div class="rowWrapper">
+						<div class="logo"></div>
+						<div class="name"><?php echo $vers; ?></div>
+						<div class="percentage">
+							<div class="valueWrapper">
+								<div class="value" style="width:<?php echo round($value*100/$this->all,2); ?>%"></div>
+							</div>
+						</div>
+						<div class="percent"><?php echo round($value*100/$this->all,2); ?> %</div>
+						<div class="counts"><?php echo $value; ?></div>
+						<div class="clear"></div>
+					</div>
+			
+				<?php endforeach; ?>
+				
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
+</div>
+<?php else: ?>
+<div class="userlyticsContent">
+	<h1><?php echo $GLOBALS['TL_LANG']['userlytics']['errormsg']; ?></h1>
+	<p class="tl_info">
+		<?php echo $GLOBALS['TL_LANG']['userlytics']['infomsg']; ?>
+	</p>
+</div>
+<?php endif; ?>
