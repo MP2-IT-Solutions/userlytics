@@ -39,7 +39,7 @@
  * file to see how back end modules are configured.
  */
 
-$GLOBALS['BE_MOD']['content']['userlytics'] = array(
+$GLOBALS['BE_MOD']['system']['userlytics'] = array(
 	'callback'     		=> 'beuserlytics',
 	'stylesheet'		=> 'system/modules/userlytics/assets/css/be_style.css',
 	'javascript'		=> 'system/modules/userlytics/assets/js/be_script.js',
